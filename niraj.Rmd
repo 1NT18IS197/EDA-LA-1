@@ -1,0 +1,213 @@
+---
+title: "Heart_Attack_Analysis_&_Prediction_Dataset"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<div style="text-align:justify">
+
+# Importing the dataset
+```{r}
+getwd()
+heart_data = read.csv("heart.csv", sep = ",", header = TRUE)
+```
+
+# Structure Of Data
+```{r}
+str(heart_data)
+```
+
+```{r}
+summary(heart_data)
+```
+
+```{r}
+typeof(heart_data)
+```
+
+```{r}
+class(heart_data)
+```
+
+```{r}
+head(heart_data)
+```
+
+```{r}
+age_club = heart_data$age[1:20]
+```
+
+```{r}
+age_club
+```
+
+```{r}
+class(age_club)
+```
+
+```{r}
+sort(age_club)
+```
+
+```{r}
+chol_club = heart_data$chol[1:10]
+```
+
+```{r}
+chol_club
+```
+
+```{r}
+sort(chol_club,decreasing = TRUE)
+```
+
+```{r}
+class(heart_data$age)
+```
+
+```{r}
+typeof(heart_data$age)
+```
+
+```{r}
+mean(age_club)
+```
+
+```{r}
+median(age_club)
+```
+
+```{r}
+sum(age_club)
+```
+
+```{r}
+cumsum(age_club)
+```
+```{r}
+cumsum(age_club[1:10])
+```
+
+```{r}
+cummax(age_club[1:10])
+```
+
+```{r}
+rev(age_club)
+```
+
+```{r}
+order(age_club[1:10])
+```
+
+```{r}
+boxplot(heart_data$age)
+```
+
+```{r}
+boxplot(heart_data$sex)
+```
+
+```{r}
+boxplot(heart_data$cp)
+```
+
+```{r}
+age1 <- filter(heart_data, heart_data$age > 50)
+head(age1)
+```
+
+
+```{r}
+age2 <- filter(heart_data, heart_data$chol < 150)
+head(age2)
+```
+
+# Creating a Scatter Plot
+To make a scatter plot,use plot() and pass it a vector of x values followed by a vector of y values:
+```{r}
+plot(heart_data$age,heart_data$chol)
+````
+The first part, ggplot(), tell it to create a plot object, and the second part, geom_point(), tells it to add a layer of points to the plot.
+```{r}
+library(ggplot2)
+
+ggplot(heart_data, aes(x = age, y = chol)) +
+  geom_point()
+```
+
+
+# Creating a Bar Graph
+To make a bar graph of values,use barplot() and pass it a vector of values for the height of each bar and (optionally) a vector of labels for each bar. If the vector has names for the elements, the names will automatically be used as labels:
+
+```{r}
+barplot(heart_data$age, names.arg = heart_data$trtbps)
+```
+With ggplot2, you can get a similar result using geom_col(). To plot a bar graph of values, use geom_col(). Notice the difference in the output when the x variable is continuous and when it is discrete:
+```{r}
+ggplot(heart_data, aes(x = cp, y = oldpeak)) +
+  geom_col()
+ggplot(heart_data, aes(x = factor(cp), y = oldpeak)) +
+  geom_col()
+```
+
+# Creating a Histogram
+To make a histogram,use hist() and pass it a vector of values:
+```{r}
+hist(heart_data$age)
+
+# Specify approximate number of bins with breaks
+hist(heart_data$age, breaks = 10)
+```
+```{r}
+ggplot(heart_data, aes(x = thalachh)) +
+  geom_histogram()
+ggplot(heart_data, aes(x = thalachh)) +
+  geom_histogram(binwidth = 60)
+```
+
+# Making a Basic Bar Graph
+Use ggplot() with geom_col() and specify what variables you want on the x- and y-axes:
+```{r}
+ggplot(heart_data, aes(x = oldpeak, y = cp)) +
+  geom_col()
+```
+
+# Making a Bar Graphs of count
+Use geom_bar() without mapping anything to y:
+```{r}
+ggplot(heart_data, aes(x = thalachh)) +
+  geom_bar()
+```
+
+# Using Colors in Bar Graph
+
+
+```{r}
+heart_data$Gender <- factor(heart_data$sex,levels=c(0,1),labels=c("Male","Female"))
+heart_data[1:15,]
+```
+
+```{r}
+ggplot(heart_data, aes(x = age, y = chol, fill = Gender)) +
+  geom_col()
+```
+```{r}
+ggplot(data=heart_data,aes(x=sex,fill=Gender))+geom_bar()
+ggplot(data=heart_data,aes(x=age,fill=Gender))+geom_histogram(col="black")
+ggplot(data=heart_data,aes(x=cp,fill=Gender))+geom_bar()+
+  theme(axis.text=element_text(size = 8))
+ggplot(data=heart_data,aes(x=slp,fill=Gender))+geom_bar()
+ggplot(data=heart_data,aes(x=exng,fill=Gender))+geom_bar()
+```
+
+</div>
+
+
+
